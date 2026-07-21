@@ -52,7 +52,9 @@
     "update:version": "tsx ./scripts/update-version.ts"
   },
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+  "@types/node": "^20.9.0"
+},
   "peerDependencies": {},
   "peerDependenciesMeta": {},
   "resolutions": {},
