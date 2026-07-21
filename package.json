@@ -1,6 +1,6 @@
 {
   "name": "@llorenduke/baileys",
-  "version": "6.7.21-lloren.3",
+  "version": "6.7.21-lloren.3-beta",
   "description": "Lloren Baileys - A fork of Baileys with additional features and fixes.",
   "type": "module",
   "license": "MIT",
