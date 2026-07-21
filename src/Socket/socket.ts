@@ -61,7 +61,7 @@ import { BinaryInfo } from '../WAM/BinaryInfo.js'
 import { USyncQuery, USyncUser } from '../WAUSync/'
 import { WebSocketClient } from './Client'
 import { executeWMexQuery } from './mex.js'
-
+import { initializeRuntime } from "./runtime.js"
 /**
  * Connects to WA servers and performs:
  * - simple queries (no retry mechanism, wait for connection establishment)
@@ -1198,3 +1198,4 @@ function mapWebSocketError(handler: (err: Error) => void) {
 		handler(new Boom(`WebSocket Error (${error?.message})`, { statusCode: getCodeFromWSError(error), data: error }))
 	}
 }
+
