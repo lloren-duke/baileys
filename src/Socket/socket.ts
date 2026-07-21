@@ -156,15 +156,22 @@ export const makeSocket = (config: SocketConfig) => {
 	}
 
 	/** send a binary node */
-	const sendNode = (frame: BinaryNode) => {
-		if (logger.level === 'trace') {
-			logger.trace({ xml: binaryNodeToString(frame), msg: 'xml send' })
-		}
-
-		const buff = encodeBinaryNode(frame)
-		return sendRawMessage(buff)
-	}
-
+const sendNode = (frame: BinaryNode) => {
+    logger.info(
+        `SEND NODE -> ${frame.tag}`
+    )
+    if (logger.level === 'trace') {
+        logger.trace({
+            xml: binaryNodeToString(frame),
+            msg: 'xml send'
+        })
+    }
+    const buff = encodeBinaryNode(frame)
+logger.info(
+    `Encoded ${frame.tag} (${buff.length} bytes)`
+)
+    return sendRawMessage(buff)
+}
 	/**
 	 * Wait for a message with a certain tag to be received
 	 * @param msgId the message tag to await
@@ -774,7 +781,12 @@ export const makeSocket = (config: SocketConfig) => {
 			id: jidEncode(phoneNumber, 's.whatsapp.net'),
 			name: '~'
 		}
+
+logger.info("Pairing request started")
+logger.info(`Pairing JID: ${authState.creds.me.id}`)
+		
 		ev.emit('creds.update', authState.creds)
+		logger.info("Sending pairing IQ...")
 		await sendNode({
 			tag: 'iq',
 			attrs: {
@@ -822,6 +834,7 @@ export const makeSocket = (config: SocketConfig) => {
 				}
 			]
 		})
+		logger.info("Pairing IQ sent")
 		return authState.creds.pairingCode
 	}
 
@@ -854,13 +867,17 @@ export const makeSocket = (config: SocketConfig) => {
 	ws.on('message', onMessageReceived)
 
 	ws.on('open', async () => {
-		try {
-			await validateConnection()
-		} catch (err: any) {
-			logger.error({ err }, 'error in validating connection')
-			void end(err)
-		}
-	})
+    logger.info("=== WS OPEN ===")
+    try {
+        logger.info("Validating Connection...")
+        await validateConnection()
+        logger.info("Validation Finished")
+    } catch (err: any) {
+        logger.error({ err }, 'error in validating connection')
+        void end(err)
+    }
+})
+	
 	ws.on('error', mapWebSocketError(end))
 	ws.on('close', () => void end(new Boom('Connection Terminated', { statusCode: DisconnectReason.connectionClosed })))
 	// the server terminated the connection
