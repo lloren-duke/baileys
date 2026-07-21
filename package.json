@@ -2,7 +2,7 @@
   "name": "@lloren-duke/baileys",
   "type": "module",
   "version": "6.7.21-lloren.1",
-  "description": "A WebSockets library for interacting with WhatsApp Web",
+  "description": "A fork of Baileys with additional features and fixes.",
   "keywords": [
     "whatsapp",
     "automation",
@@ -10,8 +10,10 @@
   ],
   "homepage": "https://github.com/lloren-duke/baileys",
   "repository": {
-    "url": "git@github.com:lloren-duke/Baileys.git"
-  },
+		"type": "git",
+    "url": "git+https://github.com/lloren-duke/baileys.git"
+    
+	},
   "license": "MIT",
   "author": "Lloren",
   "main": "lib/index.js",
