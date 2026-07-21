@@ -10,14 +10,14 @@
     "moduleDetection": "force",
 
     "lib": ["ES2020", "ESNext.Array", "DOM"],
+    "types": ["node"],
+
     "rootDir": "./src",
 
-    // ESM Features
     "verbatimModuleSyntax": true,
     "allowImportingTsExtensions": true,
     "noEmit": true,
 
-    // Type Safety
     "strict": true,
     "strictNullChecks": true,
     "noFallthroughCasesInSwitch": true,
@@ -26,13 +26,11 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
 
-    // Interop
     "esModuleInterop": true,
     "resolveJsonModule": true,
 
-    // DX Boosters
     "allowJs": false,
-    "checkJs": false,
+    "checkJs": false
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
