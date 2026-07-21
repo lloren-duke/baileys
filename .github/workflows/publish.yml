@@ -1,4 +1,4 @@
-name: Publish Lumine Baileys
+name: Publish Lloren Baileys
 
 on:
   workflow_dispatch:
