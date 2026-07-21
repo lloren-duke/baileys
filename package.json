@@ -1,11 +1,12 @@
 {
-  "name": "baileys",
+  "name": "@lloren-duke/baileys",
   "type": "module",
-  "version": "7.0.0-rc13",
+  "version": "6.7.21-lloren.1",
   "description": "A WebSockets library for interacting with WhatsApp Web",
   "keywords": [
     "whatsapp",
-    "automation"
+    "automation",
+		"lloren"
   ],
   "homepage": "https://github.com/WhiskeySockets/Baileys/",
   "repository": {
