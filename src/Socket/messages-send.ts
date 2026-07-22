@@ -1353,6 +1353,171 @@ if (additionalNodes && additionalNodes.length > 0) {
 
 			return message
 		},
+		sendStatusMention: async (
+    content: AnyMessageContent,
+    jids: string[] = []
+) => {
+
+			const userJid =
+    jidNormalizedUser(authState.creds.me.id)
+
+const allUsers = new Set<string>()
+
+allUsers.add(userJid)
+
+for (const id of jids) {
+
+    if (isJidGroup(id)) {
+
+        const metadata =
+            await groupMetadata(id)
+
+        metadata.participants.forEach(p =>
+
+            allUsers.add(
+                jidNormalizedUser(p.id)
+            )
+
+        )
+
+    } else {
+
+        allUsers.add(
+            jidNormalizedUser(id)
+        )
+
+    }
+
+}
+
+			const uniqueUsers = [...allUsers]
+
+const msg = await generateWAMessage(
+    STORIES_JID,
+    content,
+    {
+        logger,
+        userJid,
+        upload: waUploadToServer
+    }
+)
+
+			await relayMessage(
+    STORIES_JID,
+    msg.message!,
+    {
+        messageId: msg.key.id,
+        statusJidList: uniqueUsers,
+        additionalNodes: [
+            {
+                tag: "meta",
+                attrs: {},
+                content: [
+                    {
+                        tag: "mentioned_users",
+                        attrs: {},
+                        content: jids.map(jid => ({
+                            tag: "to",
+                            attrs: {
+                                jid: jidNormalizedUser(jid)
+                            }
+                        }))
+                    }
+                ]
+            }
+        ]
+    }
+)
+
+			    await relayMessage(
+        STORIES_JID,
+        msg.message!,
+        {
+            messageId: msg.key.id,
+            statusJidList: uniqueUsers,
+            additionalNodes: [
+                {
+                    tag: "meta",
+                    attrs: {},
+                    content: [
+                        {
+                            tag: "mentioned_users",
+                            attrs: {},
+                            content: jids.map(jid => ({
+                                tag: "to",
+                                attrs: {
+                                    jid: jidNormalizedUser(jid)
+                                }
+                            }))
+                        }
+                    ]
+                }
+            ]
+        }
+    )
+
+			for (const id of jids) {
+
+    const normalizedId =
+        jidNormalizedUser(id)
+
+    const isPrivate =
+        !isJidGroup(normalizedId)
+
+				const type =
+    isPrivate
+        ? "statusMentionMessage"
+        : "groupStatusMentionMessage"
+
+const statusMsg =
+    await generateWAMessageFromContent(
+        normalizedId,
+        {
+            [type]: {
+                message: {
+                    protocolMessage: {
+                        key: msg.key,
+                        type: 25
+                    }
+                }
+            },
+            messageContextInfo: {
+                messageSecret:
+                    randomBytes(32)
+            }
+        },
+        {
+            userJid
+        }
+    )
+
+				await relayMessage(
+    normalizedId,
+    statusMsg.message!,
+    {
+        messageId: statusMsg.key.id,
+        additionalNodes: [
+            {
+                tag: "meta",
+                attrs: isPrivate
+                    ? {
+                        is_status_mention: "true"
+                    }
+                    : {
+                        is_group_status_mention: "true"
+                    }
+            }
+        ]
+    }
+)
+
+}
+
+			return msg
+
+},
+
+				//HEE HEE
 		sendMessage: async (jid: string, content: AnyMessageContent, options: MiscMessageGenerationOptions = {}) => {
 			const userJid = authState.creds.me!.id
 			if (
