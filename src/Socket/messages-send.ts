@@ -1358,9 +1358,10 @@ if (additionalNodes && additionalNodes.length > 0) {
     jids: string[] = []
 ) => {
 
-			const userJid =
-    jidNormalizedUser(authState.creds.me.id)
-
+			const me = authState.creds.me
+if (!me) throw new Error('Not logged in')
+const userJid = jidNormalizedUser(me.id)
+			
 const allUsers = new Set<string>()
 
 allUsers.add(userJid)
@@ -1407,7 +1408,7 @@ const msg = await generateWAMessage(
         'status@broadcast',
         msg.message!,
         {
-            messageId: msg.key.id,
+            messageId: msg.key.id ?? undefined,
             statusJidList: uniqueUsers,
             additionalNodes: [
                 {
@@ -1469,7 +1470,7 @@ const statusMsg =
     normalizedId,
     statusMsg.message!,
     {
-        messageId: statusMsg.key.id,
+        messageId: statusMsg.key.id ?? undefined,
         additionalNodes: [
             {
                 tag: "meta",
