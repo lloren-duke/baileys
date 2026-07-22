@@ -635,6 +635,10 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 		const { user, server } = jidDecode(jid)!
 		const isGroup = server === 'g.us'
 		const isStatus = jid === statusJid
+		const isStatusMention =
+    isStatus &&
+    Array.isArray(statusJidList) &&
+    statusJidList.length > 0
 		const isLid = server === 'lid'
 		const isNewsletter = server === 'newsletter'
 		const isGroupOrStatus = isGroup || isStatus
@@ -742,6 +746,27 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 				if (isStatus && statusJidList) {
 					participantsList.push(...statusJidList)
 				}
+
+				// ===== Status Mention Preparation =====
+
+const uniqueStatusJids = isStatus && statusJidList
+    ? [...new Set(statusJidList)]
+    : []
+
+const statusMentionNodes: BinaryNode[] = []
+
+if (uniqueStatusJids.length) {
+    statusMentionNodes.push({
+        tag: 'meta',
+        attrs: {},
+        content: uniqueStatusJids.map(jid => ({
+            tag: 'mentioned_users',
+            attrs: {
+                jid
+            }
+        }))
+    })
+}
 
 				const additionalDevices = await getUSyncDevices(participantsList, !!useUserDevicesCache, false)
 				devices.push(...additionalDevices)
@@ -1088,9 +1113,13 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 				})
 			}
 
-			if (additionalNodes && additionalNodes.length > 0) {
-				;(stanza.content as BinaryNode[]).push(...additionalNodes)
-			}
+			if (statusMentionNodes.length) {
+    ;(stanza.content as BinaryNode[]).push(...statusMentionNodes)
+}
+
+if (additionalNodes && additionalNodes.length > 0) {
+    ;(stanza.content as BinaryNode[]).push(...additionalNodes)
+}
 
 			logger.debug({ msgId }, `sending message to ${participants.length} devices`)
 
