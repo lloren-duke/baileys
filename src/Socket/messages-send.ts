@@ -532,6 +532,32 @@ export const makeMessagesSocket = (config: SocketConfig) => {
 		return msgId
 	}
 
+	const buildStatusMentionMessage = (
+    quotedStatus: proto.IMessage,
+    isGroup = false
+): proto.IMessage => {
+
+    const mention = proto.StatusMentionMessage.create({
+        quotedStatus
+    })
+
+    const wrapper = proto.Message.FutureProofMessage.create({
+        message: proto.Message.create({
+            statusMentionMessage: mention
+        })
+    })
+
+    return proto.Message.create(
+        isGroup
+            ? {
+                groupStatusMentionMessage: wrapper
+            }
+            : {
+                statusMentionMessage: wrapper
+            }
+    )
+}
+
 	const createParticipantNodes = async (
 		recipientJids: string[],
 		message: proto.IMessage,
@@ -1371,6 +1397,9 @@ if (additionalNodes && additionalNodes.length > 0) {
 						: disappearingMessagesInChat
 				await groupToggleEphemeral(jid, value)
 			} else {
+
+				//DI SINI
+				
 				const fullMsg = await generateWAMessage(jid, content, {
 					logger,
 					userJid,
@@ -1427,6 +1456,17 @@ if (additionalNodes && additionalNodes.length > 0) {
 						}
 					} as BinaryNode)
 				}
+//UP MENTION
+				const isStatusMention =
+    jid === 'status@broadcast' &&
+    Array.isArray(options?.statusJidList) &&
+    options.statusJidList.length > 0
+
+const statusMentionTargets = isStatusMention
+    ? [...new Set(options.statusJidList)]
+    : []
+//HERE
+				const quotedStatus = fullMsg.message as proto.IMessage
 
 				await relayMessage(jid, fullMsg.message!, {
 					messageId: fullMsg.key.id!,
