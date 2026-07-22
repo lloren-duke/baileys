@@ -1114,9 +1114,7 @@ if (uniqueStatusJids.length) {
 				})
 			}
 
-			if (statusMentionNodes.length) {
-    ;(stanza.content as BinaryNode[]).push(...statusMentionNodes)
-}
+			
 
 if (additionalNodes && additionalNodes.length > 0) {
     ;(stanza.content as BinaryNode[]).push(...additionalNodes)
@@ -1395,7 +1393,7 @@ for (const id of jids) {
 			const uniqueUsers = [...allUsers]
 
 const msg = await generateWAMessage(
-    STORIES_JID,
+    'status@broadcast',
     content,
     {
         logger,
@@ -1404,35 +1402,9 @@ const msg = await generateWAMessage(
     }
 )
 
-			await relayMessage(
-    STORIES_JID,
-    msg.message!,
-    {
-        messageId: msg.key.id,
-        statusJidList: uniqueUsers,
-        additionalNodes: [
-            {
-                tag: "meta",
-                attrs: {},
-                content: [
-                    {
-                        tag: "mentioned_users",
-                        attrs: {},
-                        content: jids.map(jid => ({
-                            tag: "to",
-                            attrs: {
-                                jid: jidNormalizedUser(jid)
-                            }
-                        }))
-                    }
-                ]
-            }
-        ]
-    }
-)
-
+			
 			    await relayMessage(
-        STORIES_JID,
+        'status@broadcast',
         msg.message!,
         {
             messageId: msg.key.id,
