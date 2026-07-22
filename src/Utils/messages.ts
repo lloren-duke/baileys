@@ -791,13 +791,28 @@ export const normalizeMessageContent = (content: WAMessageContent | null | undef
 	}
 
 	// set max iterations to prevent an infinite loop
-	for (let i = 0; i < 5; i++) {
+		for (let i = 0; i < 5; i++) {
 		const inner = getFutureProofMessage(content)
+
 		if (!inner) {
 			break
 		}
 
+		const isViewOnce =
+			!!content?.viewOnceMessage ||
+			!!content?.viewOnceMessageV2 ||
+			!!content?.viewOnceMessageV2Extension
+
 		content = inner.message
+
+		if (isViewOnce && content) {
+			const type = Object.keys(content)[0] as keyof typeof content
+			const msg = content[type] as any
+
+			if (msg && typeof msg === "object") {
+				msg.viewOnce = true
+			}
+		}
 	}
 
 	return content!
