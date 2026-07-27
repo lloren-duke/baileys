@@ -3,6 +3,7 @@ import { randomBytes } from 'crypto'
 import { promises as fs } from 'fs'
 import { type Transform } from 'stream'
 import { proto } from '../../WAProto/index.js'
+import WAProto, { proto } from '../../WAProto'
 import {
 	CALL_AUDIO_PREFIX,
 	CALL_VIDEO_PREFIX,
@@ -397,43 +398,102 @@ export const generateWAMessageContent = async (
 	options: MessageContentGenerationOptions
 ) => {
 	let m: WAMessageContent = {}
-	if (hasNonNullishProperty(message, 'text')) {
-		const extContent = { text: message.text } as WATextMessage
 
-		let urlInfo = message.linkPreview
-		if (typeof urlInfo === 'undefined') {
-			urlInfo = await generateLinkPreviewIfRequired(message.text, options.getUrlInfo, options.logger)
+if (
+	hasNonNullishProperty(message, 'buttons') &&
+	Array.isArray((message as any).buttons)
+) {
+	const msg = message as any
+
+	const buttons = msg.buttons.map((button: any) => {
+		switch (button.type) {
+			case 'quick_reply':
+				return {
+					name: 'quick_reply',
+					buttonParamsJson: JSON.stringify({
+						display_text: button.text,
+						id: button.id
+					})
+				}
+
+			case 'cta_url':
+				return {
+					name: 'cta_url',
+					buttonParamsJson: JSON.stringify({
+						display_text: button.text,
+						url: button.url
+					})
+				}
+
+			case 'copy_code':
+				return {
+					name: 'cta_copy',
+					buttonParamsJson: JSON.stringify({
+						display_text: button.text,
+						copy_code: button.code
+					})
+				}
+
+			default:
+				return null
 		}
+	}).filter(Boolean)
 
-		if (urlInfo) {
-			extContent.matchedText = urlInfo['matched-text']
-			extContent.jpegThumbnail = urlInfo.jpegThumbnail
-			extContent.description = urlInfo.description
-			extContent.title = urlInfo.title
-			extContent.previewType = 0
-
-			const img = urlInfo.highQualityThumbnail
-			if (img) {
-				extContent.thumbnailDirectPath = img.directPath
-				extContent.mediaKey = img.mediaKey
-				extContent.mediaKeyTimestamp = img.mediaKeyTimestamp
-				extContent.thumbnailWidth = img.width
-				extContent.thumbnailHeight = img.height
-				extContent.thumbnailSha256 = img.fileSha256
-				extContent.thumbnailEncSha256 = img.fileEncSha256
-			}
+	m.viewOnceMessage = {
+		message: {
+			interactiveMessage: proto.Message.InteractiveMessage.create({
+				body: {
+					text: msg.text
+				},
+				footer: {
+					text: msg.footer || ''
+				},
+				nativeFlowMessage: {
+					buttons
+				}
+			})
 		}
+	}
 
-		if (options.backgroundColor) {
-			extContent.backgroundArgb = await assertColor(options.backgroundColor)
+} else if (hasNonNullishProperty(message, 'text')) {
+	const extContent = { text: message.text } as WATextMessage
+
+	let urlInfo = message.linkPreview
+	if (typeof urlInfo === 'undefined') {
+		urlInfo = await generateLinkPreviewIfRequired(message.text, options.getUrlInfo, options.logger)
+	}
+
+	if (urlInfo) {
+		extContent.matchedText = urlInfo['matched-text']
+		extContent.jpegThumbnail = urlInfo.jpegThumbnail
+		extContent.description = urlInfo.description
+		extContent.title = urlInfo.title
+		extContent.previewType = 0
+
+		const img = urlInfo.highQualityThumbnail
+		if (img) {
+			extContent.thumbnailDirectPath = img.directPath
+			extContent.mediaKey = img.mediaKey
+			extContent.mediaKeyTimestamp = img.mediaKeyTimestamp
+			extContent.thumbnailWidth = img.width
+			extContent.thumbnailHeight = img.height
+			extContent.thumbnailSha256 = img.fileSha256
+			extContent.thumbnailEncSha256 = img.fileEncSha256
 		}
+	}
 
-		if (options.font) {
-			extContent.font = options.font
-		}
+	if (options.backgroundColor) {
+		extContent.backgroundArgb = await assertColor(options.backgroundColor)
+	}
 
-		m.extendedTextMessage = extContent
-	} else if (hasNonNullishProperty(message, 'contacts')) {
+	if (options.font) {
+		extContent.font = options.font
+	}
+
+	m.extendedTextMessage = extContent
+}
+	
+	else if (hasNonNullishProperty(message, 'contacts')) {
 		const contactLen = message.contacts.contacts.length
 		if (!contactLen) {
 			throw new Boom('require atleast 1 contact', { statusCode: 400 })
