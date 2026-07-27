@@ -229,6 +229,33 @@ export type WASendableProduct = Omit<proto.Message.ProductMessage.IProductSnapsh
 	productImage: WAMediaUpload
 }
 
+		 // + TO NEXT UPDATE BUTTON
+
+		 export type WAButton =
+	| {
+			type: 'quick_reply'
+			text: string
+			id: string
+	  }
+	| {
+			type: 'cta_url'
+			text: string
+			url: string
+	  }
+	| {
+			type: 'copy_code'
+			text: string
+			code: string
+	  }
+
+		 export type ButtonMessage = {
+	text: string
+	footer?: string
+	buttons: WAButton[]
+}
+
+		 // STOP
+
 export type AnyRegularMessageContent = (
 	| ({
 			text: string
@@ -236,6 +263,10 @@ export type AnyRegularMessageContent = (
 	  } & Mentionable &
 			Contextable &
 			Editable)
+	| (ButtonMessage &
+	Mentionable &
+	Contextable &
+	Editable)
 	| AnyMediaMessageContent
 	| { event: EventMessageOptions }
 	| ({
