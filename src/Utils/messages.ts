@@ -440,20 +440,22 @@ if (
 	}).filter(Boolean)
 
 	m.viewOnceMessage = {
-		message: {
-			interactiveMessage: proto.Message.InteractiveMessage.create({
-				body: {
-					text: msg.text
-				},
-				footer: {
-					text: msg.footer || ''
-				},
-				nativeFlowMessage: {
-					buttons
-				}
+	message: {
+		messageContextInfo: {},
+		interactiveMessage: proto.Message.InteractiveMessage.create({
+			body: proto.Message.InteractiveMessage.Body.create({
+				text: msg.text
+			}),
+			footer: proto.Message.InteractiveMessage.Footer.create({
+				text: msg.footer || ''
+			}),
+			nativeFlowMessage: proto.Message.InteractiveMessage.NativeFlowMessage.create({
+				buttons,
+				messageVersion: 1
 			})
-		}
+		})
 	}
+}
 
 } else if (hasNonNullishProperty(message, 'text')) {
 	const extContent = { text: message.text } as WATextMessage
