@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src=".github/file_0000000011588211955c6c5bb9423792.png" width="140" alt="Kisaki Project"/>
+<img src=".[github/file_0000000011588211955c6c5bb9423792.png](https://raw.githubusercontent.com/lloren-duke/Kisaki/main/.github/file_0000000011588211955c6c5bb9423792.png)" width="140" alt="Kisaki Project"/>
 
 # Kisaki Project
 
