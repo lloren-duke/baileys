@@ -9,21 +9,10 @@
 Built with a plugin-based architecture to simplify feature development, customization, and maintenance.
 
 <p>
-
-<a href="https://github.com/lloren-duke/Kisaki">
-<img src="https://img.shields.io/github/stars/lloren-duke/Kisaki?style=for-the-badge">
-</a>
-
-<a href="https://github.com/lloren-duke/Kisaki/network/members">
-<img src="https://img.shields.io/github/forks/lloren-duke/Kisaki?style=for-the-badge">
-</a>
-
-<a href="LICENSE">
-<img src="https://img.shields.io/github/license/lloren-duke/Kisaki?style=for-the-badge">
-</a>
-
-<img src="https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white">
-
+  <img src="https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white">
+  <img src="https://img.shields.io/badge/JavaScript-ES2023-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
+  <img src="https://img.shields.io/badge/Baileys-LlorenDuke-25D366?style=for-the-badge&logo=whatsapp&logoColor=white">
+  <img src="https://img.shields.io/badge/Open%20Source-Yes-blue?style=for-the-badge">
 </p>
 
 ---
