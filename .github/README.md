@@ -1,59 +1,63 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/lloren-duke/baileys/refs/heads/master/.github/file_0000000011588211955c6c5bb9423792.png" height="120" alt="Kisaki Project"/>
+<img src="https://raw.githubusercontent.com/lloren-duke/baileys/refs/heads/master/.github/file_0000000011588211955c6c5bb9423792.png" height="120" alt="LlorenDuke"/>
 
 # Kisaki Project
 
-**A modular WhatsApp bot framework powered by Baileys.**
+**A modular WhatsApp bot framework powered by LlorenDuke Baileys.**
 
-Build, customize, and extend WhatsApp bots with a plugin-based architecture.
+Built with a plugin-based architecture to simplify feature development, customization, and maintenance.
 
 <p>
 
-<a href="https://github.com/lloren-duke/baileys/stargazers">
-<img src="https://img.shields.io/github/stars/lloren-duke/baileys?style=for-the-badge">
+<a href="https://github.com/lloren-duke/Kisaki">
+<img src="https://img.shields.io/github/stars/lloren-duke/Kisaki?style=for-the-badge">
 </a>
 
-<a href="https://github.com/lloren-duke/baileys/network/members">
-<img src="https://img.shields.io/github/forks/lloren-duke/baileys?style=for-the-badge">
+<a href="https://github.com/lloren-duke/Kisaki/network/members">
+<img src="https://img.shields.io/github/forks/lloren-duke/Kisaki?style=for-the-badge">
 </a>
 
 <a href="LICENSE">
-<img src="https://img.shields.io/github/license/lloren-duke/baileys?style=for-the-badge">
+<img src="https://img.shields.io/github/license/lloren-duke/Kisaki?style=for-the-badge">
 </a>
 
 <img src="https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white">
 
-<img src="https://img.shields.io/badge/Baileys-Latest-25D366?style=for-the-badge&logo=whatsapp&logoColor=white">
-
 </p>
 
-<img src="https://raw.githubusercontent.com/WhiskeySockets/Baileys/refs/heads/master/Media/logo.png" height="55" alt="Powered by Baileys"/>
+---
+
+### Powered by
+
+<a href="https://github.com/lloren-duke/baileys">
+<img src="https://raw.githubusercontent.com/WhiskeySockets/Baileys/refs/heads/master/Media/logo.png" height="55" alt="Baileys">
+</a>
+
+**LlorenDuke Baileys**  
+A customized fork of the Baileys library maintained for Kisaki Project.
 
 </div>
 
 ---
 
-# ✨ Features
+## ✨ Features
 
 - 📦 Modular plugin system
 - 🤖 WhatsApp Multi-Device support
 - ⚡ Fast command handler
-- 🧩 Easy plugin development
-- 📁 Organized project structure
+- 🔌 Easy plugin development
 - 🛠 Utility modules
-- 🔧 Easy configuration
-- 📚 Open Source
+- 📁 Organized project structure
 
 ---
 
-# 🚀 Installation
+## 🚀 Installation
 
 ```bash
-git clone https://github.com/lloren-duke/baileys.git
+git clone https://github.com/lloren-duke/Kisaki.git
 
-cd baileys
-
+cd Kisaki
 npm install
 ```
 
@@ -65,56 +69,31 @@ npm start
 
 ---
 
-# 📂 Project Structure
+## 🤝 Contributing
 
-```text
-.
-├── assets/
-├── lib/
-├── plugins/
-├── src/
-├── system/
-├── .github/
-├── package.json
-└── README.md
-```
+Contributions are welcome.
+
+Please open an Issue before submitting large changes and follow the existing code style.
 
 ---
 
-# 🤝 Contributing
+## ❤️ Credits
 
-Contributions are welcome!
-
-If you'd like to improve Kisaki Project:
-
-- Fork this repository.
-- Create a new branch.
-- Commit your changes.
-- Open a Pull Request.
-
-Please keep code clean and follow the existing project structure.
+- **LlorenDuke Baileys**
+- WhiskeySockets (Original Baileys)
+- All Contributors
 
 ---
 
-# ❤️ Credits
-
-- WhiskeySockets — Baileys
-- Contributors
-- Open Source Community
-
----
-
-# ⚠️ Disclaimer
+## ⚠️ Disclaimer
 
 > [!CAUTION]
-> Kisaki Project is an independent open-source project built on top of Baileys. It is not affiliated with, endorsed by, or sponsored by WhatsApp Inc.
+> Kisaki Project is an independent open-source project and is not affiliated with, endorsed by, or sponsored by WhatsApp Inc.
 >
-> Users are responsible for complying with WhatsApp's Terms of Service and all applicable laws when using this software.
+> LlorenDuke Baileys is based on the original Baileys project by WhiskeySockets. All respective trademarks belong to their owners.
 
 ---
 
-# 📄 License
+## 📄 License
 
-This project is licensed under the **MIT License**.
-
-See the [LICENSE](LICENSE) file for details.
+Released under the **MIT License**.
