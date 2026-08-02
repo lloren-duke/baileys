@@ -3,7 +3,7 @@
 <table>
 <tr>
 <td align="center" width="50%">
-<img src="assets/logo.png" height="120" alt="Kisaki Project"/>
+<img src="[assets/logo.png](https://files.catbox.moe/htadtn.png)" height="120" alt="Kisaki Project"/>
 </td>
 
 <td align="center" width="50%">
